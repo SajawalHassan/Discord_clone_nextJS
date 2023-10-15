@@ -1,5 +1,9 @@
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  return <div className="bg-red-500 h-screen">{children}</div>;
+  return (
+    <div className="h-full flex flex-col items-center justify-center">
+      {children}
+    </div>
+  );
 };
 
 export default Layout;
