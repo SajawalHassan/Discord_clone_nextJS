@@ -8,6 +8,13 @@ body,
   height: 100%;
 }
 
+.my-config {
+  --darkmode: 1;
+  --h-accent: 223;
+  --s-accent: 100%;
+  --l-accent: 61%;
+}
+
 @font-face {
   font-family: "Open Sans Variable";
   font-style: normal;
