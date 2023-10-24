@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ModalsProvider } from "@/components/providers/modals-provider";
 
 export const metadata: Metadata = {
   title: "Discord Clone",
@@ -23,6 +24,7 @@ export default function RootLayout({
             enableSystem={true}
             storageKey="discord-clone-theme"
           >
+            <ModalsProvider />
             {children}
           </ThemeProvider>
         </body>
