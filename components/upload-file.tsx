@@ -2,9 +2,9 @@
 
 import { X, UploadCloud } from "lucide-react";
 
-import UploadcareImage from "@uploadcare/nextjs-loader";
 import * as LR from "@uploadcare/blocks";
 import { useState } from "react";
+import Image from "next/image";
 
 LR.registerBlocks(LR);
 
@@ -31,7 +31,7 @@ export const UploadFile = ({ onChange, value }: PropTypes) => {
   if (value && uploadIsFinished == true) {
     return (
       <div className="relative h-20 w-20">
-        <UploadcareImage
+        <Image
           src={value}
           alt="Upload"
           className="rounded-full bg-gray-500"
