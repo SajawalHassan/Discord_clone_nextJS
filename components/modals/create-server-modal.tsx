@@ -41,7 +41,7 @@ const formSchema = z.object({
 });
 
 export const CreateServer = () => {
-  const { isOpen, onClose } = useModal();
+  const { isOpen, onClose, type } = useModal();
 
   const router = useRouter();
 
@@ -54,6 +54,7 @@ export const CreateServer = () => {
   });
 
   const isLoading = form.formState.isSubmitting;
+  const modalIsOpen = isOpen && type == "create-server";
 
   const handleOnSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -61,7 +62,7 @@ export const CreateServer = () => {
 
       form.reset();
       router.refresh();
-      window.location.reload();
+      onClose();
     } catch (error) {
       console.log(error);
     }
@@ -73,7 +74,7 @@ export const CreateServer = () => {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleOnClose}>
+    <Dialog open={modalIsOpen} onOpenChange={handleOnClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
