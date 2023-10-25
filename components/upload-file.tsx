@@ -3,7 +3,7 @@
 import { X, UploadCloud } from "lucide-react";
 
 import * as LR from "@uploadcare/blocks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 LR.registerBlocks(LR);
@@ -15,6 +15,10 @@ interface PropTypes {
 
 export const UploadFile = ({ onChange, value }: PropTypes) => {
   const [uploadIsFinished, setUploadIsFinished] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (value) setUploadIsFinished(true);
+  }, []);
 
   window.addEventListener("LR_UPLOAD_FINISH", (e) => {
     onChange(e.detail?.data[0].cdnUrl);

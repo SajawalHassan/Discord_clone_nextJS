@@ -5,6 +5,7 @@ import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 
 import {
   Dialog,
@@ -39,10 +40,11 @@ const formSchema = z.object({
   }),
 });
 
-export const CreateServer = () => {
-  const { isOpen, onClose, type } = useModal();
+export const ServerSettings = () => {
+  const { isOpen, onClose, type, data } = useModal();
 
   const router = useRouter();
+  const { server } = data;
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -52,12 +54,19 @@ export const CreateServer = () => {
     },
   });
 
+  useEffect(() => {
+    if (server) {
+      form.setValue("name", server.name);
+      form.setValue("imageUrl", server.imageUrl);
+    }
+  }, [server]);
+
   const isLoading = form.formState.isSubmitting;
-  const modalIsOpen = isOpen && type == "createServer";
+  const modalIsOpen = isOpen && type == "serverSettings";
 
   const handleOnSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("/api/servers", values);
+      await axios.patch(`/api/servers/${server?.id}`, values);
 
       form.reset();
       router.refresh();
@@ -68,7 +77,6 @@ export const CreateServer = () => {
   };
 
   const handleOnClose = () => {
-    form.reset();
     onClose();
   };
 
@@ -77,12 +85,8 @@ export const CreateServer = () => {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Customize your server
+            Edit your server
           </DialogTitle>
-          <DialogDescription className="text-center text-zinc-500">
-            Give your server a personality with a name and an image. You can
-            always change it later
-          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -131,7 +135,7 @@ export const CreateServer = () => {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button disabled={isLoading} variant="primary">
-                Create
+                Save
               </Button>
             </DialogFooter>
           </form>

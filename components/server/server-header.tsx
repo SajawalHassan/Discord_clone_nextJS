@@ -18,7 +18,7 @@ import {
   UserPlus,
   Users,
 } from "lucide-react";
-import { useModal } from "@/hooks/use-modal-hook";
+import { useModal } from "@/hooks/use-modal-store";
 
 interface Props {
   server: ServerWithMembersAndProfiles;
@@ -51,7 +51,10 @@ export const ServerHeader = ({ server, role }: Props) => {
             </DropdownMenuItem>
           )}
           {isAdmin && (
-            <DropdownMenuItem className="px-3 py-2 text-sm cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => onOpen("serverSettings", { server })}
+              className="px-3 py-2 text-sm cursor-pointer"
+            >
               Server Settings
               <Settings className="h-4 w-4 ml-auto" />
             </DropdownMenuItem>
