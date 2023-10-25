@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { currentProfile } from "@/lib/currentProfile";
+import { currentProfile } from "@/lib/current-profile";
 import { redirect } from "next/navigation";
 import { NavigationAction } from "@/components/navigation/navigation-action";
 import { Separator } from "@/components/ui/seperator";
