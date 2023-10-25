@@ -29,7 +29,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { UploadFile } from "@/components/upload-file";
 import { useRouter } from "next/navigation";
-import { useModal } from "@/hooks/modal-hook";
+import { useModal } from "@/hooks/use-modal-hook";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -54,7 +54,7 @@ export const CreateServer = () => {
   });
 
   const isLoading = form.formState.isSubmitting;
-  const modalIsOpen = isOpen && type == "create-server";
+  const modalIsOpen = isOpen && type == "createServer";
 
   const handleOnSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
