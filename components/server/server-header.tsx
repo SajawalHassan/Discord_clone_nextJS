@@ -61,7 +61,9 @@ export const ServerHeader = ({ server, role }: Props) => {
           )}
           {isAdmin && (
             <DropdownMenuItem
-              onClick={() => onOpen("manageMembers", { server })}
+              onClick={() =>
+                setTimeout(() => onOpen("manageMembers", { server }), 50)
+              }
               className="px-3 py-2 text-sm cursor-pointer"
             >
               Manage Members
