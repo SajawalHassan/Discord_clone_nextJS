@@ -1,5 +1,6 @@
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { MemberRole } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -20,10 +21,12 @@ export async function DELETE(
     const server = await db.server.update({
       where: {
         id: serverId,
-        profileId: profile.id,
-        channels: {
+        members: {
           some: {
-            id: params.channelId,
+            profileId: profile.id,
+            role: {
+              in: [MemberRole.MODERATOR, MemberRole.ADMIN],
+            },
           },
         },
       },
@@ -31,6 +34,9 @@ export async function DELETE(
         channels: {
           delete: {
             id: params.channelId,
+            name: {
+              not: "general",
+            },
           },
         },
       },
