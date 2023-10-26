@@ -6,8 +6,9 @@ import { Invite } from "@/components/modals/invite-modal";
 import { ServerSettings } from "@/components/modals/server-settings-modal";
 import { ManageMembers } from "@/components/modals/manage-members-modal";
 import { CreateChannel } from "@/components/modals/create-channel-modal";
-import { LeaveServer } from "../modals/leave-server-modal";
-import { DeleteServer } from "../modals/delete-server-modal";
+import { LeaveServer } from "@/components/modals/leave-server-modal";
+import { DeleteServer } from "@/components/modals/delete-server-modal";
+import { DeleteChannel } from "@/components/modals/delete-channel-modal";
 
 export const ModalsProvider = () => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -27,6 +28,7 @@ export const ModalsProvider = () => {
       <CreateChannel />
       <LeaveServer />
       <DeleteServer />
+      <DeleteChannel />
     </>
   );
 };
