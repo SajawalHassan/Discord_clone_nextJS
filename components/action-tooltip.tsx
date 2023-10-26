@@ -10,8 +10,8 @@ import {
 interface Props {
   label: string;
   children: React.ReactNode;
-  side: "top" | "bottom" | "left" | "right";
-  align: "start" | "center" | "end";
+  side?: "top" | "bottom" | "left" | "right";
+  align?: "start" | "center" | "end";
 }
 
 export const ActionTooltip = ({ align, children, label, side }: Props) => {
