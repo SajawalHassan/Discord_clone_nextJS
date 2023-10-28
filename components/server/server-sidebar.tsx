@@ -28,7 +28,7 @@ const roleIconMap = {
 
 export const ServerSidebar = async ({ serverId }: { serverId: string }) => {
   const profile = await currentProfile();
-  if (!profile) redirectToSignIn();
+  if (!profile) return redirectToSignIn();
 
   const server = await db.server.findUnique({
     where: {
