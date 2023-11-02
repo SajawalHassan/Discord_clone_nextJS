@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import qs from "query-string";
 import axios from "axios";
+import { useModal } from "@/hooks/use-modal-store";
 
 const formSchema = z.object({
   content: z.string().min(1),
@@ -37,9 +38,10 @@ const roleIconMap = {
   ADMIN: <ShieldAlert className="h-4 w-4 text-rose-500" />,
 };
 
-export const Chatitem = ({ content, currentMember, deleted, id, isUpdated, member, socketQuery, socketUrl, timestamp }: Props) => {
+export const Chatitem = ({ content, currentMember, deleted, id: messageId, isUpdated, member, socketQuery, socketUrl, timestamp }: Props) => {
+  const { onOpen } = useModal();
+
   const [isEditing, setIsEditing] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   const isAdmin = currentMember.role === MemberRole.ADMIN;
   const isModerator = currentMember.role === MemberRole.MODERATOR;
@@ -71,7 +73,7 @@ export const Chatitem = ({ content, currentMember, deleted, id, isUpdated, membe
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
-        url: `${socketUrl}/${id}`,
+        url: `${socketUrl}/${messageId}`,
         query: socketQuery,
       });
 
@@ -150,7 +152,10 @@ export const Chatitem = ({ content, currentMember, deleted, id, isUpdated, membe
             </ActionTooltip>
           )}
           <ActionTooltip label="Delete">
-            <Trash className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
+            <Trash
+              onClick={() => onOpen("deleteMessage", { apiUrl: `${socketUrl}/${messageId}`, query: socketQuery })}
+              className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
+            />
           </ActionTooltip>
         </div>
       )}
