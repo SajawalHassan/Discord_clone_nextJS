@@ -143,6 +143,9 @@ model DirectMessage {
 
   deleted Boolean
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([memberId])
   @@index([conversationId])
 }
