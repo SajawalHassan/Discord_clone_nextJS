@@ -10,7 +10,7 @@ interface Props {
   };
 }
 
-export default async ({ params }: Props) => {
+const InviteCodePage = async ({ params }: Props) => {
   const profile = await currentProfile();
 
   if (!profile) return redirectToSignIn();
@@ -43,3 +43,5 @@ export default async ({ params }: Props) => {
 
   return <div></div>;
 };
+
+export default InviteCodePage;

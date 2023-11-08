@@ -4,13 +4,7 @@ import { db } from "@/lib/db";
 import { redirectToSignIn } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
-export default async ({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { serverId: string };
-}) => {
+const ServerIdLayout = async ({ children, params }: { children: React.ReactNode; params: { serverId: string } }) => {
   const profile = await currentProfile();
   if (!profile) return redirectToSignIn();
 
@@ -36,3 +30,5 @@ export default async ({
     </div>
   );
 };
+
+export default ServerIdLayout;

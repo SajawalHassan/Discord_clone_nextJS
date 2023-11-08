@@ -18,7 +18,7 @@ interface Props {
   };
 }
 
-export default async ({ params, searchParams }: Props) => {
+const MemberIdPage = async ({ params, searchParams }: Props) => {
   const profile = await currentProfile();
 
   if (!profile) {
@@ -76,3 +76,5 @@ export default async ({ params, searchParams }: Props) => {
     </div>
   );
 };
+
+export default MemberIdPage;

@@ -15,7 +15,7 @@ interface Props {
   };
 }
 
-export default async ({ params }: Props) => {
+const ChannelIdPage = async ({ params }: Props) => {
   const profile = await currentProfile();
   if (!profile) return redirectToSignIn();
 
@@ -63,3 +63,5 @@ export default async ({ params }: Props) => {
     </div>
   );
 };
+
+export default ChannelIdPage;
