@@ -30,7 +30,17 @@ type MessagewithMemberAndProfile = Message & {
   };
 };
 
-export const ChatMessages = ({ name, member, chatId, apiUrl, socketUrl, socketQuery, paramKey, paramValue, type }: Props) => {
+export const ChatMessages = ({
+  name,
+  member,
+  chatId,
+  apiUrl,
+  socketUrl,
+  socketQuery,
+  paramKey,
+  paramValue,
+  type,
+}: Props) => {
   const queryKey = `chat:${chatId}`;
   const addKey = `chat:${chatId}:messages`;
   const updateKey = `chat:${chatId}:messages:update`;
@@ -38,7 +48,13 @@ export const ChatMessages = ({ name, member, chatId, apiUrl, socketUrl, socketQu
   const chatRef = useRef<ElementRef<"div">>(null);
   const bottomRef = useRef<ElementRef<"div">>(null);
 
-  const { data, fetchNextPage, hasNextPage: hasPreviousPage, isFetchingNextPage, status } = useChatQuery({ apiUrl, paramKey, paramValue, queryKey });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage: hasPreviousPage,
+    isFetchingNextPage,
+    status,
+  } = useChatQuery({ apiUrl, paramKey, paramValue, queryKey });
 
   useChatSocket({ addKey, updateKey, queryKey });
   useChatScroll({
@@ -53,7 +69,9 @@ export const ChatMessages = ({ name, member, chatId, apiUrl, socketUrl, socketQu
     return (
       <div className="flex flex-col flex-1 justify-center items-center">
         <Loader2 className="h-7 w-7 text-zinc-500 animate-spin my-4" />
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">Loading messages...</p>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          Loading messages...
+        </p>
       </div>
     );
   }
@@ -62,7 +80,9 @@ export const ChatMessages = ({ name, member, chatId, apiUrl, socketUrl, socketQu
     return (
       <div className="flex flex-col flex-1 justify-center items-center">
         <ServerCrash className="h-7 w-7 text-zinc-500 my-4" />
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">Something went wrong...</p>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          Something went wrong...
+        </p>
       </div>
     );
   }
@@ -79,7 +99,8 @@ export const ChatMessages = ({ name, member, chatId, apiUrl, socketUrl, socketQu
           ) : (
             <button
               onClick={() => fetchNextPage()}
-              className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 text-xs my-4 dark:hover:text-zinc-300 transition">
+              className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 text-xs my-4 dark:hover:text-zinc-300 transition"
+            >
               Load previous messages
             </button>
           )}
@@ -88,7 +109,7 @@ export const ChatMessages = ({ name, member, chatId, apiUrl, socketUrl, socketQu
       <div className="flex flex-col-reverse mt-auto">
         {data?.pages?.map((group, i) => (
           <Fragment key={i}>
-            {group.items.map((message: MessagewithMemberAndProfile) => (
+            {group?.items?.map((message: MessagewithMemberAndProfile) => (
               <Chatitem
                 key={message.id}
                 id={message.id}
