@@ -7,7 +7,6 @@ import { Loader2, ServerCrash } from "lucide-react";
 import { ElementRef, Fragment, useRef } from "react";
 import { Chatitem } from "./chat-item";
 import { format } from "date-fns";
-import { useChatSocket } from "@/hooks/use-chat-socket";
 import { useChatScroll } from "@/hooks/use-chat-scroll";
 
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
@@ -17,11 +16,10 @@ interface Props {
   member: Member;
   chatId: string;
   apiUrl: string;
-  socketUrl: string;
-  socketQuery: Record<string, string>;
   paramKey: "channelId" | "conversationId";
   paramValue: string;
   type: "channel" | "conversation";
+  query: Record<string, any>;
 }
 
 type MessagewithMemberAndProfile = Message & {
@@ -35,15 +33,12 @@ export const ChatMessages = ({
   member,
   chatId,
   apiUrl,
-  socketUrl,
-  socketQuery,
   paramKey,
   paramValue,
   type,
+  query,
 }: Props) => {
   const queryKey = `chat:${chatId}`;
-  const addKey = `chat:${chatId}:messages`;
-  const updateKey = `chat:${chatId}:messages:update`;
 
   const chatRef = useRef<ElementRef<"div">>(null);
   const bottomRef = useRef<ElementRef<"div">>(null);
@@ -56,7 +51,6 @@ export const ChatMessages = ({
     status,
   } = useChatQuery({ apiUrl, paramKey, paramValue, queryKey });
 
-  useChatSocket({ addKey, updateKey, queryKey });
   useChatScroll({
     chatRef,
     bottomRef,
@@ -112,15 +106,15 @@ export const ChatMessages = ({
             {group?.items?.map((message: MessagewithMemberAndProfile) => (
               <Chatitem
                 key={message.id}
-                id={message.id}
+                messageId={message.id}
                 currentMember={member}
                 member={message.member}
                 content={message.content}
                 deleted={message.deleted}
                 timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
                 isUpdated={message.updatedAt !== message.createdAt}
-                socketUrl={socketUrl}
-                socketQuery={socketQuery}
+                query={query}
+                apiUrl={apiUrl}
               />
             ))}
           </Fragment>

@@ -36,7 +36,11 @@ const ChannelIdPage = async ({ params }: Props) => {
 
   return (
     <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
-      <ChatHeader name={channel.name} serverId={params.serverId} type="channel" />
+      <ChatHeader
+        name={channel.name}
+        serverId={params.serverId}
+        type="channel"
+      />
       {channel.type === ChannelType.TEXT && (
         <>
           <ChatMessages
@@ -44,22 +48,25 @@ const ChannelIdPage = async ({ params }: Props) => {
             name={channel.name}
             type="channel"
             apiUrl="/api/messages"
-            socketUrl="/api/socket/messages"
-            socketQuery={{ channelId: params.channelId, serverId: params.serverId }}
             chatId={channel.id}
             paramKey="channelId"
             paramValue={channel.id}
+            query={{ channelId: channel.id, serverId: channel.serverId }}
           />
           <ChatInput
-            apiUrl={`/api/socket/messages`}
+            apiUrl={`/api/messages`}
             name={channel.name}
             type="channel"
             query={{ channelId: channel.id, serverId: channel.serverId }}
           />
         </>
       )}
-      {channel.type === ChannelType.AUDIO && <MediaRoom chatId={channel.id} video={false} audio={true} />}
-      {channel.type === ChannelType.VIDEO && <MediaRoom chatId={channel.id} video={true} audio={false} />}
+      {channel.type === ChannelType.AUDIO && (
+        <MediaRoom chatId={channel.id} video={false} audio={true} />
+      )}
+      {channel.type === ChannelType.VIDEO && (
+        <MediaRoom chatId={channel.id} video={true} audio={false} />
+      )}
     </div>
   );
 };

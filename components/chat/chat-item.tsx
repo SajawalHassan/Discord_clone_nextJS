@@ -12,25 +12,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import qs from "query-string";
-import axios from "axios";
 import { useModal } from "@/hooks/use-modal-store";
 import { useParams, useRouter } from "next/navigation";
+import qs from "query-string";
+import axios from "axios";
 
 const formSchema = z.object({
   content: z.string().min(1),
 });
 
 interface Props {
-  id: string;
+  messageId: string;
   content: string;
   member: Member & { profile: Profile };
   timestamp: string;
   deleted: boolean;
   currentMember: Member;
   isUpdated: boolean;
-  socketUrl: string;
-  socketQuery: Record<string, string>;
+  query: Record<string, any>;
+  apiUrl: string;
 }
 
 const roleIconMap = {
@@ -39,17 +39,7 @@ const roleIconMap = {
   ADMIN: <ShieldAlert className="h-4 w-4 text-rose-500" />,
 };
 
-export const Chatitem = ({
-  content,
-  currentMember,
-  deleted,
-  id: messageId,
-  isUpdated,
-  member: messageMember,
-  socketQuery,
-  socketUrl,
-  timestamp,
-}: Props) => {
+export const Chatitem = ({ messageId, content, currentMember, deleted, isUpdated, member: messageMember, timestamp, query, apiUrl }: Props) => {
   const { onOpen } = useModal();
 
   const router = useRouter();
@@ -93,8 +83,8 @@ export const Chatitem = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
-        url: `${socketUrl}/${messageId}`,
-        query: socketQuery,
+        url: `${apiUrl}/${messageId}`,
+        query: { ...query, messageId },
       });
 
       await axios.patch(url, values);
@@ -176,7 +166,12 @@ export const Chatitem = ({
           )}
           <ActionTooltip label="Delete">
             <Trash
-              onClick={() => onOpen("deleteMessage", { apiUrl: `${socketUrl}/${messageId}`, query: socketQuery })}
+              onClick={() =>
+                onOpen("deleteMessage", {
+                  apiUrl: `${apiUrl}/${messageId}`,
+                  query: { ...query, messageId },
+                })
+              }
               className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
             />
           </ActionTooltip>
