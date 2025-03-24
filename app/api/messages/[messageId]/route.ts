@@ -11,6 +11,7 @@ async function getMessageInfo(req: NextRequest) {
     const serverId = searchParams.get("serverId");
     const channelId = searchParams.get("channelId");
     const messageId = searchParams.get("messageId");
+    console.log({ messageId });
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
