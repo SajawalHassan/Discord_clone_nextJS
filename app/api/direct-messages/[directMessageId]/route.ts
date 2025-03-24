@@ -11,8 +11,6 @@ async function getMessageInfo(req: NextRequest) {
     const directMessageId = searchParams.get("messageId");
     const conversationId = searchParams.get("conversationId");
 
-    console.log({ profile, conversationId, directMessageId });
-
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
