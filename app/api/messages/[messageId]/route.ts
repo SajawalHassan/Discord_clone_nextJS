@@ -3,15 +3,14 @@ import { db } from "@/lib/db";
 import { MemberRole } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
-async function getMessageInfo(req: NextRequest) {
+async function getMessageInfo(req: NextRequest, messageId: string) {
   try {
     const profile = await currentProfilePages(req);
     const { searchParams } = new URL(req.url);
 
     const serverId = searchParams.get("serverId");
     const channelId = searchParams.get("channelId");
-    const messageId = searchParams.get("messageId");
-    console.log({ messageId, "Full url": req.url });
+    console.log({ "params.messageId": messageId, "Full url": req.url });
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -90,9 +89,9 @@ async function getMessageInfo(req: NextRequest) {
   }
 }
 
-export async function PATCH(req: NextRequest) {
+export async function PATCH(req: NextRequest, { params }: { params: { messageId: string } }) {
   try {
-    let [message, messageId]: any = await getMessageInfo(req);
+    let [message, messageId]: any = await getMessageInfo(req, params.messageId);
     const { content } = await req.json();
 
     message = await db.message.update({
@@ -118,9 +117,9 @@ export async function PATCH(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(req: NextRequest, { params }: { params: { messageId: string } }) {
   try {
-    let [message, messageId]: any = await getMessageInfo(req);
+    let [message, messageId]: any = await getMessageInfo(req, params.messageId);
 
     message = await db.message.update({
       where: {
