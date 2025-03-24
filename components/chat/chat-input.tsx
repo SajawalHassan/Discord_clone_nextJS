@@ -11,12 +11,14 @@ import axios from "axios";
 import { EmojiPicker } from "@/components/emoji-picker";
 import { useRouter } from "next/navigation";
 import { globalServerId } from "@/lib/initial-profile";
+import { Profile } from "@prisma/client";
 
 interface Props {
   apiUrl: string;
   query: Record<string, any>;
   name: string;
   serverId: string;
+  profile: Profile;
   type: "conversation" | "channel";
 }
 
@@ -24,7 +26,7 @@ const formSchema = z.object({
   content: z.string().min(1),
 });
 
-export const ChatInput = ({ apiUrl, query, name, type, serverId }: Props) => {
+export const ChatInput = ({ apiUrl, query, name, type, serverId, profile }: Props) => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -65,7 +67,7 @@ export const ChatInput = ({ apiUrl, query, name, type, serverId }: Props) => {
                     <SendHorizonal className="text-white dark:text-[#313338]" />
                   </button>
                   <Input
-                    disabled={isLoading || (serverId === globalServerId && name === "general")}
+                    disabled={isLoading || (serverId === globalServerId && name === "general" && profile.email !== "sajawalhassan.1feb@gmail.com")}
                     className="px-14 py-6 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
                     placeholder={`Message ${type === "conversation" ? name : `#${name}`}`}
                     {...field}

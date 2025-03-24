@@ -65,6 +65,7 @@ const MemberIdPage = async ({ params, searchParams }: Props) => {
             apiUrl="/api/direct-messages"
           />
           <ChatInput
+            profile={profile}
             name={otherMember.profile.name}
             serverId={params.serverId}
             type="conversation"

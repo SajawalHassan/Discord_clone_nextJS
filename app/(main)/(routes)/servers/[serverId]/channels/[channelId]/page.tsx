@@ -50,6 +50,7 @@ const ChannelIdPage = async ({ params }: Props) => {
             query={{ channelId: channel.id, serverId: channel.serverId }}
           />
           <ChatInput
+            profile={profile}
             apiUrl={`/api/messages`}
             name={channel.name}
             type="channel"
