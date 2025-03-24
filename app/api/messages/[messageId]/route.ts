@@ -50,9 +50,7 @@ async function getMessageInfo(req: NextRequest) {
       });
     }
 
-    const currentMember = server.members.find(
-      (member) => member.profileId === profile.id
-    );
+    const currentMember = server.members.find((member) => member.profileId === profile.id);
 
     if (!currentMember) {
       return new NextResponse("member missing", { status: 404 });
@@ -115,7 +113,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json("Message edited");
   } catch (error) {
     console.log(error);
-    return new NextResponse("internal server error", { status: 500 });
+    return new NextResponse("internal server error", { status: 500, statusText: JSON.stringify(error) });
   }
 }
 
