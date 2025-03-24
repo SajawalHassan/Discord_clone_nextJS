@@ -10,11 +10,13 @@ import qs from "query-string";
 import axios from "axios";
 import { EmojiPicker } from "@/components/emoji-picker";
 import { useRouter } from "next/navigation";
+import { globalServerId } from "@/lib/initial-profile";
 
 interface Props {
   apiUrl: string;
   query: Record<string, any>;
   name: string;
+  serverId: string;
   type: "conversation" | "channel";
 }
 
@@ -22,7 +24,7 @@ const formSchema = z.object({
   content: z.string().min(1),
 });
 
-export const ChatInput = ({ apiUrl, query, name, type }: Props) => {
+export const ChatInput = ({ apiUrl, query, name, type, serverId }: Props) => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -63,19 +65,13 @@ export const ChatInput = ({ apiUrl, query, name, type }: Props) => {
                     <SendHorizonal className="text-white dark:text-[#313338]" />
                   </button>
                   <Input
-                    disabled={isLoading}
+                    disabled={isLoading || (serverId === globalServerId && name === "general")}
                     className="px-14 py-6 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
-                    placeholder={`Message ${
-                      type === "conversation" ? name : `#${name}`
-                    }`}
+                    placeholder={`Message ${type === "conversation" ? name : `#${name}`}`}
                     {...field}
                   />
                   <div className="absolute top-7 right-8">
-                    <EmojiPicker
-                      onChange={(emoji: string) =>
-                        field.onChange(`${field.value} ${emoji}`)
-                      }
-                    />
+                    <EmojiPicker onChange={(emoji: string) => field.onChange(`${field.value} ${emoji}`)} />
                   </div>
                 </div>
               </FormControl>
