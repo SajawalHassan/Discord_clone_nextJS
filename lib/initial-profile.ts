@@ -2,7 +2,8 @@ import { currentUser, redirectToSignIn } from "@clerk/nextjs";
 
 import { db } from "@/lib/db";
 import { MemberRole } from "@prisma/client";
-const globalServerId = "bd0d7642-52cc-428c-bca6-1bee1b8711c4";
+
+const globalServerId = "c90e44c5-3bd4-4d47-9bdd-ffe77d38b7b7";
 
 export const initialProfile = async () => {
   try {
@@ -36,7 +37,7 @@ export const initialProfile = async () => {
     // Add new user to global server
     await db.server.update({
       where: {
-        inviteCode: globalServerId,
+        id: globalServerId,
       },
       data: {
         members: {
