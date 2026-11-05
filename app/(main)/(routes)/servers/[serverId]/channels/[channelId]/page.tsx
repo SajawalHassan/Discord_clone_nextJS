@@ -44,14 +44,19 @@ const ChannelIdPage = async ({ params }: Props) => {
             name={channel.name}
             type="channel"
             apiUrl="/api/messages"
+            socketUrl="/api/socket/messages"
+            socketQuery={{ channelId: params.channelId, serverId: params.serverId }}
             chatId={channel.id}
             paramKey="channelId"
             paramValue={channel.id}
-            query={{ channelId: channel.id, serverId: channel.serverId }}
           />
           <ChatInput
+<<<<<<< HEAD
             profile={profile}
             apiUrl={`/api/messages`}
+=======
+            apiUrl={`/api/socket/messages`}
+>>>>>>> parent of c61c0cd (removed socket io completely for hosting on vercel, currently polling every 1s as fallback)
             name={channel.name}
             type="channel"
             serverId={params.serverId}

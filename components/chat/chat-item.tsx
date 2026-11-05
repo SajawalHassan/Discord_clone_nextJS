@@ -12,25 +12,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useModal } from "@/hooks/use-modal-store";
-import { useParams, useRouter } from "next/navigation";
 import qs from "query-string";
 import axios from "axios";
+import { useModal } from "@/hooks/use-modal-store";
+import { useParams, useRouter } from "next/navigation";
 
 const formSchema = z.object({
   content: z.string().min(1),
 });
 
 interface Props {
-  messageId: string;
+  id: string;
   content: string;
   member: Member & { profile: Profile };
   timestamp: string;
   deleted: boolean;
   currentMember: Member;
   isUpdated: boolean;
-  query: Record<string, any>;
-  apiUrl: string;
+  socketUrl: string;
+  socketQuery: Record<string, string>;
 }
 
 const roleIconMap = {
@@ -39,7 +39,17 @@ const roleIconMap = {
   ADMIN: <ShieldAlert className="h-4 w-4 text-rose-500" />,
 };
 
-export const Chatitem = ({ messageId, content, currentMember, deleted, isUpdated, member: messageMember, timestamp, query, apiUrl }: Props) => {
+export const Chatitem = ({
+  content,
+  currentMember,
+  deleted,
+  id: messageId,
+  isUpdated,
+  member: messageMember,
+  socketQuery,
+  socketUrl,
+  timestamp,
+}: Props) => {
   const { onOpen } = useModal();
 
   const router = useRouter();
@@ -83,8 +93,8 @@ export const Chatitem = ({ messageId, content, currentMember, deleted, isUpdated
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
-        url: `${apiUrl}/${messageId}`,
-        query: { ...query, messageId },
+        url: `${socketUrl}/${messageId}`,
+        query: socketQuery,
       });
 
       await axios.patch(url, values);
@@ -166,12 +176,7 @@ export const Chatitem = ({ messageId, content, currentMember, deleted, isUpdated
           )}
           <ActionTooltip label="Delete">
             <Trash
-              onClick={() =>
-                onOpen("deleteMessage", {
-                  apiUrl: `${apiUrl}/${messageId}`,
-                  query: { ...query, messageId },
-                })
-              }
+              onClick={() => onOpen("deleteMessage", { apiUrl: `${socketUrl}/${messageId}`, query: socketQuery })}
               className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
             />
           </ActionTooltip>
