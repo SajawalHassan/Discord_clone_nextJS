@@ -57,7 +57,8 @@ async function getMessageInfo(req: NextRequest) {
       return new NextResponse("Conversation missing", { status: 404 });
     }
 
-    const currentMember = conversation.memberOne.profileId === profile.id ? conversation.memberOne : conversation.memberTwo;
+    const currentMember =
+      conversation.memberOne.profileId === profile.id ? conversation.memberOne : conversation.memberTwo;
 
     if (!currentMember) {
       return new NextResponse("Member missing", { status: 404 });
