@@ -51,12 +51,8 @@ const ChannelIdPage = async ({ params }: Props) => {
             paramValue={channel.id}
           />
           <ChatInput
-<<<<<<< HEAD
             profile={profile}
-            apiUrl={`/api/messages`}
-=======
             apiUrl={`/api/socket/messages`}
->>>>>>> parent of c61c0cd (removed socket io completely for hosting on vercel, currently polling every 1s as fallback)
             name={channel.name}
             type="channel"
             serverId={params.serverId}
