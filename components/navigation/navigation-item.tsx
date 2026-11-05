@@ -22,26 +22,20 @@ export const NavigationItem = ({ id, imageUrl, name }: Props) => {
   return (
     <div>
       <ActionTooltip align="center" label={name} side="right">
-        <button
-          onClick={handleOnClick}
-          className="group relative flex items-center"
-        >
+        <button onClick={handleOnClick} className="group relative flex items-center">
           <div
             className={cn(
               "absolute left-0 bg-primary rounded-r-full transition-all w-[4px]",
-              params?.serverId === id
-                ? "h-[36px]"
-                : "h-[8px] group-hover:h-[20px]"
+              params?.serverId === id ? "h-[36px]" : "h-[8px] group-hover:h-[20px]",
             )}
           />
           <div
             className={cn(
               "relative group flex mx-3 h-[48px] w-[48px] rounded-[24px] group-hover:rounded-[16px] transition-all overflow-hidden",
-              params?.serverId == id &&
-                "bg-primary/10 text-primary rounded-[16px]"
+              params?.serverId == id && "bg-primary/10 text-primary rounded-[16px]",
             )}
           >
-            <Image fill src={imageUrl} alt="Channel" />
+            <Image fill className="object-cover" src={imageUrl} alt="Channel" />
           </div>
         </button>
       </ActionTooltip>

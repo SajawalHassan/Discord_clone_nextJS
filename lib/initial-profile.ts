@@ -3,7 +3,7 @@ import { currentUser, redirectToSignIn } from "@clerk/nextjs";
 import { db } from "@/lib/db";
 import { MemberRole } from "@prisma/client";
 
-export const globalServerId = "c90e44c5-3bd4-4d47-9bdd-ffe77d38b7b7";
+export const globalServerId = "0511ca94-1ef6-43ae-ab4e-11a7b0d26135";
 
 export const initialProfile = async () => {
   try {
